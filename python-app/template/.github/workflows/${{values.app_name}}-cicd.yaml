@@ -55,6 +55,8 @@ jobs:
 
       - name: Install argocd
         shell: bash
+        env:
+          ARGOCD_CONFIG_PATH: /runner/_work/.argocd        
         run: |
           curl -kL -o /runner/_work/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x /runner/_work/argocd-linux-amd64
