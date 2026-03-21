@@ -56,10 +56,15 @@ jobs:
       - name: Install argocd
         shell: bash
         run: |
+          curl -kL -o /runner/_work/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+          chmod +x /runner/_work/argocd-linux-amd64
+          sudo mv /runner/_work/argocd-linux-amd64 /usr/local/bin/argocd        
           argocd version
 
       - name: argocd login
         shell: bash
+        env:
+          ARGOCD_CONFIG_PATH: /runner/_work/.argocd
         run: |
           argocd login argocd-server.argocd \
             --insecure  \
@@ -69,6 +74,8 @@ jobs:
 
       - name: Ensure argocd repo and app
         shell: bash
+        env:
+          ARGOCD_CONFIG_PATH: /runner/_work/.argocd        
         run: |
           # Connects the argocd repo
           repo="https://github.com/sameer8283/${{values.app_name}}.git"
@@ -87,6 +94,8 @@ jobs:
 
       - name: Argocd app sync
         shell: bash
+        env:
+          ARGOCD_CONFIG_PATH: /runner/_work/.argocd        
         run: |
           argocd app sync ${{values.app_name}}
           argocd app wait ${{values.app_name}} --timeout 180          
