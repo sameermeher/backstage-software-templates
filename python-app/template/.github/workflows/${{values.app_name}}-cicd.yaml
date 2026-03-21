@@ -6,6 +6,7 @@ on:
       - src/**
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   ci:
@@ -58,7 +59,6 @@ jobs:
           curl -kL -o /tmp/argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
           chmod +x /tmp/argocd-linux-amd64
           sudo mv /tmp/argocd-linux-amd64 /usr/local/bin/argocd
-          argocd version
 
       - name: argocd login
         shell: bash
